@@ -1,0 +1,10 @@
+server:
+  port: 8801
+spring:
+  application:
+    name: rabbitmq-topic-receiver
+  rabbitmq:
+    host: 101.132.45.166
+    port: 5672
+    username: yushen
+    password: 123123
