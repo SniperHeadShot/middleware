@@ -1,0 +1,10 @@
+server:
+  port: 8901
+spring:
+  application:
+    name: rabbitmq-fanout-receiver
+  rabbitmq:
+    host: 101.132.45.166
+    port: 5672
+    username: yushen
+    password: 123123

@@ -8,6 +8,8 @@
         <module>rabbitmq_direct_receiver</module>
         <module>rabbitmq_topic_publish</module>
         <module>rabbitmq_topic_receiver</module>
+        <module>rabbitmq_fanout_sender</module>
+        <module>rabbitmq_fanout_receiver</module>
     </modules>
 
     <parent>

@@ -9,8 +9,8 @@ public interface Constant {
     String ROUTING_KEY_TWO_SON = "topic.test.two.son.#";
 
     //Topic类型交换机名称
-    String EXCHANGE_NAME_ONE = "exchange_topic_test_one";
-    String EXCHANGE_NAME_TWO = "exchange_topic_test_two";
+    String EXCHANGE_NAME_ONE = "exchange.topic.test.one";
+    String EXCHANGE_NAME_TWO = "exchange.topic.test.two";
 
     //Topic类型队列名称
     String QUEUE_TOPIC_TEST_ONE = "queue.topic.test.one";

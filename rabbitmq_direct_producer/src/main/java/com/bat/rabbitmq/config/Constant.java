@@ -7,6 +7,6 @@ public interface Constant {
     String ROUTING_KEY_TWO = "direct.test.two";
 
     //Direct类型交换机名称
-    String EXCHANGE_NAME_ONE = "exchange_direct_test_one";
-    String EXCHANGE_NAME_TWO = "exchange_direct_test_two";
+    String EXCHANGE_NAME_ONE = "exchange.direct.test.one";
+    String EXCHANGE_NAME_TWO = "exchange.direct.test.two";
 }
