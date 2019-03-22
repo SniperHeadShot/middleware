@@ -1,5 +1,6 @@
 package com.bat.rabbitmq.service;
 
+import com.bat.rabbitmq.config.Constant;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -11,12 +12,18 @@ public class TopicPublishService {
     private AmqpTemplate amqpTemplate;
 
     public void topicOnePublish(){
-        //第一个参数为交换机，第二个为队列名称,第三个为发送内容
-        amqpTemplate.convertAndSend("exchangeTypeOne","topic.one","Hello Rabbitmq!");
+        amqpTemplate.convertAndSend(Constant.EXCHANGE_NAME_ONE,Constant.ROUTING_KEY_ONE,"EXCHANGE_NAME_ONE ROUTING_KEY_ONE Hello Rabbitmq!");
+    }
+
+    public void topicOnePublishSon(){
+        amqpTemplate.convertAndSend(Constant.EXCHANGE_NAME_ONE,Constant.ROUTING_KEY_ONE_SON,"EXCHANGE_NAME_ONE ROUTING_KEY_ONE_SON Hello Rabbitmq!");
     }
 
     public void topicTwoPublish(){
-        //第一个参数为交换机，第二个为队列名称,第三个为发送内容
-        amqpTemplate.convertAndSend("exchangeTypeTwo","topic.two","Hello Rabbitmq!");
+        amqpTemplate.convertAndSend(Constant.EXCHANGE_NAME_TWO,Constant.ROUTING_KEY_TWO,"EXCHANGE_NAME_TWO ROUTING_KEY_TWO Hello Rabbitmq!");
+    }
+
+    public void topicTwoPublishSon(){
+        amqpTemplate.convertAndSend(Constant.EXCHANGE_NAME_TWO,Constant.ROUTING_KEY_TWO_SON,"EXCHANGE_NAME_TWO ROUTING_KEY_TWO_SON Hello Rabbitmq!");
     }
 }

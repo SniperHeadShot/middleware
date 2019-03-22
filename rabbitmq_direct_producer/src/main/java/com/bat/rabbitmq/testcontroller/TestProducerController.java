@@ -11,8 +11,23 @@ public class TestProducerController {
     @Autowired
     private DirectProducerService directProducerService;
 
-    @GetMapping("/test")
-    public void testProduce(){
-        directProducerService.send();
+    @GetMapping("/testOne")
+    public String testProduceOne() {
+        try {
+            directProducerService.sendOne();
+        } catch (Exception e) {
+            return "发送失败!!!";
+        }
+        return "发送成功!!!";
+    }
+
+    @GetMapping("/testTwo")
+    public String testProduceTwo() {
+        try {
+            directProducerService.sendTwo();
+        } catch (Exception e) {
+            return "发送失败!!!";
+        }
+        return "发送成功!!!";
     }
 }

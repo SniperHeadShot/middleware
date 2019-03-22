@@ -12,12 +12,42 @@ public class TestPublishController {
     private TopicPublishService topicPublishService;
 
     @GetMapping("/testOne")
-    public void testTopicTestOne(){
-        topicPublishService.topicOnePublish();
+    public String testTopicTestOne() {
+        try {
+            topicPublishService.topicOnePublish();
+            return "发送成功!!!";
+        } catch (Exception e) {
+            return "发送失败!!!";
+        }
+    }
+
+    @GetMapping("/testOneSon")
+    public String testTopicTestOneSon() {
+        try {
+            topicPublishService.topicOnePublishSon();
+            return "发送成功!!!";
+        } catch (Exception e) {
+            return "发送失败!!!";
+        }
     }
 
     @GetMapping("/testTwo")
-    public void testTopicTestTwo(){
-        topicPublishService.topicTwoPublish();
+    public String testTopicTestTwo() {
+        try {
+            topicPublishService.topicTwoPublish();
+            return "发送成功!!!";
+        } catch (Exception e) {
+            return "发送失败!!!";
+        }
+    }
+
+    @GetMapping("/testTwoSon")
+    public String testTopicTestTwoSon() {
+        try {
+            topicPublishService.topicTwoPublishSon();
+            return "发送成功!!!";
+        } catch (Exception e) {
+            return "发送失败!!!";
+        }
     }
 }
