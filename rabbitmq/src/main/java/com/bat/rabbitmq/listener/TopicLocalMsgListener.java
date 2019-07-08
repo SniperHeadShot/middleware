@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
  **/
 @Component
 @RabbitListener(
-        containerFactory = "localListenerContainerFactory",
+        containerFactory = "localRabbitListenerContainerFactory",
         bindings = @QueueBinding(
                 value = @Queue(value = "queue.local.scenes", durable = "true"),
                 exchange = @Exchange(value = "exchange.local.scenes", type = "topic"),

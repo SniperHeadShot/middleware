@@ -103,7 +103,7 @@ public class CloudRabbitmqConfig {
         return cachingConnectionFactory;
     }
 
-    @Bean(name = "localListenerContainerFactory")
+    @Bean(name = "localRabbitListenerContainerFactory")
     public RabbitListenerContainerFactory<?> localRabbitListenerContainerFactory(@Qualifier("localConnectionFactory") ConnectionFactory connectionFactory) {
         SimpleRabbitListenerContainerFactory simpleRabbitListenerContainerFactory = new SimpleRabbitListenerContainerFactory();
         simpleRabbitListenerContainerFactory.setConnectionFactory(connectionFactory);
