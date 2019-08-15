@@ -2,6 +2,7 @@ package com.bat.rabbitmq.service;
 
 import com.bat.common.enums.ConstantEnum;
 import com.bat.common.response.CommonResult;
+import com.bat.rabbitmq.enums.RabbitmqBaseConfigEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.AmqpException;
 import org.springframework.amqp.core.AmqpTemplate;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 服务层
@@ -34,15 +36,16 @@ public class SendMsgService {
      * @author ZhengYu
      */
     public CommonResult sendMsg() {
-        String cloudExchangeName = "exchange.cloud.scenes";
-        String cloudRoutKeyName = "topic.cloud.scenes";
-        log.info("即将使用 Exchange=[{}], RoutingKey=[{}] 发送消息", cloudExchangeName, cloudRoutKeyName);
-        cloudRabbitTemplate.convertAndSend(cloudExchangeName, cloudRoutKeyName, "hello cloud rabbitmq!");
-
-        String localExchangeName = "exchange.local.scenes";
-        String localRoutKeyName = "topic.local.scenes";
-        log.info("即将使用 Exchange=[{}], RoutingKey=[{}] 发送消息", localExchangeName, localRoutKeyName);
-        localRabbitTemplate.convertAndSend(localExchangeName, localRoutKeyName, "hello local rabbitmq!");
+        // 往云队列上发送消息
+        cloudRabbitTemplate.convertAndSend(RabbitmqBaseConfigEnum.EXCHANGE_CLOUD_SCENES.getEnName(), RabbitmqBaseConfigEnum.TOPIC_CLOUD_SCENES.getEnName(), "hello cloud rabbitmq!");
+        // 往本地队列上发送消息
+        localRabbitTemplate.convertAndSend(RabbitmqBaseConfigEnum.EXCHANGE_LOCAL_SCENES.getEnName(), RabbitmqBaseConfigEnum.TOPIC_LOCAL_SCENES.getEnName(), "hello local rabbitmq!");
+        // 往延迟缓冲队列上发送消息
+        cloudRabbitTemplate.convertAndSend(RabbitmqBaseConfigEnum.EXCHANGE_CLOUD_SCENES.getEnName(), RabbitmqBaseConfigEnum.TOPIC_CLOUD_DELAY.getEnName(), "hello delay rabbitmq!", message -> {
+            // 时间单位是毫秒
+            message.getMessageProperties().setExpiration(Long.toString(TimeUnit.SECONDS.toMillis(3)));
+            return message;
+        });
         return CommonResult.buildCommonResult(ConstantEnum.GLOBAL_SUCCESS);
     }
 }

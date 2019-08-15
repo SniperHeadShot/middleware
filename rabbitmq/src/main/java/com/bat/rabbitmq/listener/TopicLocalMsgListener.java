@@ -1,5 +1,6 @@
 package com.bat.rabbitmq.listener;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.Exchange;
 import org.springframework.amqp.rabbit.annotation.Queue;
 import org.springframework.amqp.rabbit.annotation.QueueBinding;
@@ -21,10 +22,11 @@ import org.springframework.stereotype.Component;
                 exchange = @Exchange(value = "exchange.local.scenes", type = "topic"),
                 key = "topic.local.scenes"
         ))
+@Slf4j
 public class TopicLocalMsgListener {
 
     @RabbitHandler
     public void msgListener(String str) {
-        System.out.println("TopicLocalMsgListener 已接收：" + str);
+        log.info("TopicLocalMsgListener 已接收： [{}]", str);
     }
 }

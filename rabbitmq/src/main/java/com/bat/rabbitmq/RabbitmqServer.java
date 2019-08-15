@@ -10,8 +10,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @version 1.0 2019/7/8 15:57
  **/
 @SpringBootApplication
-public class RabbitmqTopicPublish {
+public class RabbitmqServer {
     public static void main(String[] args) {
-        SpringApplication.run(RabbitmqTopicPublish.class, args);
+        SpringApplication.run(RabbitmqServer.class, args);
     }
 }

@@ -16,17 +16,17 @@ import org.springframework.stereotype.Component;
  **/
 @Component
 @RabbitListener(
-        containerFactory = "cloudRabbitListenerContainerFactory",
+        containerFactory = "cloudDlxRabbitListenerContainerFactory",
         bindings = @QueueBinding(
-                value = @Queue(value = "queue.cloud.scenes", durable = "true"),
-                exchange = @Exchange(value = "exchange.cloud.scenes", type = "topic"),
+                value = @Queue(value = "queue.cloud.dlx", durable = "true"),
+                exchange = @Exchange(value = "exchange.cloud.dlx", type = "direct"),
                 key = "topic.cloud.scenes"
         ))
 @Slf4j
-public class TopicCloudMsgListener {
+public class DirectCloudMsgListener {
 
     @RabbitHandler
     public void msgListener(String str) {
-        log.info("TopicCloudMsgListener 已接收： [{}]", str);
+        log.info("DirectCloudMsgListener 已接收： [{}]", str);
     }
 }
