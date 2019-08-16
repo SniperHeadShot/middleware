@@ -23,6 +23,7 @@ public enum RabbitmqBaseConfigEnum {
      * 死信队列配置
      */
     EXCHANGE_CLOUD_DLX("云环境 - 死信队列 - 交换机", "exchange.cloud.dlx"),
+    TOPIC_CLOUD_DLX("云环境 - 映射 - 死信队列路由的映射", "topic.cloud.dlx"),
     /**
      * 本地环境配置枚举
      */

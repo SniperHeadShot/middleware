@@ -16,11 +16,10 @@ import org.springframework.stereotype.Component;
  **/
 @Component
 @RabbitListener(
-        containerFactory = "cloudDlxRabbitListenerContainerFactory",
         bindings = @QueueBinding(
                 value = @Queue(value = "queue.cloud.dlx", durable = "true"),
-                exchange = @Exchange(value = "exchange.cloud.dlx", type = "direct"),
-                key = "topic.cloud.scenes"
+                exchange = @Exchange(value = "exchange.cloud.dlx"),
+                key = "topic.cloud.dlx"
         ))
 @Slf4j
 public class DirectCloudMsgListener {

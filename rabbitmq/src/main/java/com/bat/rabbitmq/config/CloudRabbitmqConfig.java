@@ -56,20 +56,20 @@ public class CloudRabbitmqConfig {
         simpleRabbitListenerContainerFactory.setConsumerTagStrategy(tagStr -> "云环境");
         return simpleRabbitListenerContainerFactory;
     }
-
-    @Bean(name = "cloudDlxRabbitListenerContainerFactory")
-    @Primary
-    public RabbitListenerContainerFactory<?> cloudDlxRabbitListenerContainerFactory(@Qualifier("cloudConnectionFactory") ConnectionFactory connectionFactory) {
-        SimpleRabbitListenerContainerFactory simpleRabbitListenerContainerFactory = new SimpleRabbitListenerContainerFactory();
-        simpleRabbitListenerContainerFactory.setConnectionFactory(connectionFactory);
-        // 设置消费者线程数
-        simpleRabbitListenerContainerFactory.setConcurrentConsumers(5);
-        // 设置最大消费者线程数
-        simpleRabbitListenerContainerFactory.setMaxConcurrentConsumers(10);
-        // 设置消费者标签
-        simpleRabbitListenerContainerFactory.setConsumerTagStrategy(tagStr -> "云环境 死信队列");
-        return simpleRabbitListenerContainerFactory;
-    }
+//
+//    @Bean(name = "cloudDlxRabbitListenerContainerFactory")
+//    @Primary
+//    public RabbitListenerContainerFactory<?> cloudDlxRabbitListenerContainerFactory(@Qualifier("cloudConnectionFactory") ConnectionFactory connectionFactory) {
+//        SimpleRabbitListenerContainerFactory simpleRabbitListenerContainerFactory = new SimpleRabbitListenerContainerFactory();
+//        simpleRabbitListenerContainerFactory.setConnectionFactory(connectionFactory);
+//        // 设置消费者线程数
+//        simpleRabbitListenerContainerFactory.setConcurrentConsumers(5);
+//        // 设置最大消费者线程数
+//        simpleRabbitListenerContainerFactory.setMaxConcurrentConsumers(10);
+//        // 设置消费者标签
+//        simpleRabbitListenerContainerFactory.setConsumerTagStrategy(tagStr -> "云环境 死信队列");
+//        return simpleRabbitListenerContainerFactory;
+//    }
 
     @Bean("cloudRabbitAdmin")
     @Primary
@@ -79,21 +79,21 @@ public class CloudRabbitmqConfig {
         DirectExchange dlxExchange = new DirectExchange(RabbitmqBaseConfigEnum.EXCHANGE_CLOUD_DLX.getEnName());
         rabbitAdmin.declareExchange(dlxExchange);
 
-        // 缓冲队列配置 携带过期时间的消息在到期后会发送到死信交换机
-        Map<String, Object> dlxArguments = new HashMap<>(2);
-        dlxArguments.put("x-dead-letter-exchange", RabbitmqBaseConfigEnum.EXCHANGE_CLOUD_DLX.getEnName());
-        dlxArguments.put("x-dead-letter-routing-key", RabbitmqBaseConfigEnum.TOPIC_CLOUD_SCENES.getEnName());
-        // durable     持久化消息队列, rabbitmq重启的时候不需要创建新的队列 默认true
-        // auto-delete 表示消息队列没有在使用时将被自动删除 默认是false
-        // exclusive   表示该消息队列是否只在当前connection生效,默认是false
-        Queue bufferQueue = new Queue(RabbitmqBaseConfigEnum.QUEUE_CLOUD_DELAY.getEnName(), true, false, false, dlxArguments);
-        rabbitAdmin.declareQueue(bufferQueue);
-
         // 真实处理消息队列配置
         TopicExchange cloudExchange = new TopicExchange(RabbitmqBaseConfigEnum.EXCHANGE_CLOUD_SCENES.getEnName(), true, false);
         rabbitAdmin.declareExchange(cloudExchange);
         Queue cloudQueue = new Queue(RabbitmqBaseConfigEnum.QUEUE_CLOUD_SCENES.getEnName(), true, false, false);
         rabbitAdmin.declareQueue(cloudQueue);
+
+        // 缓冲队列配置 携带过期时间的消息在到期后会发送到死信交换机
+        Map<String, Object> dlxArguments = new HashMap<>(2);
+        dlxArguments.put("x-dead-letter-exchange", RabbitmqBaseConfigEnum.EXCHANGE_CLOUD_DLX.getEnName());
+        dlxArguments.put("x-dead-letter-routing-key", RabbitmqBaseConfigEnum.TOPIC_CLOUD_DLX.getEnName());
+        // durable     持久化消息队列, rabbitmq重启的时候不需要创建新的队列 默认true
+        // auto-delete 表示消息队列没有在使用时将被自动删除 默认是false
+        // exclusive   表示该消息队列是否只在当前connection生效,默认是false
+        Queue bufferQueue = new Queue(RabbitmqBaseConfigEnum.QUEUE_CLOUD_DELAY.getEnName(), true, false, false, dlxArguments);
+        rabbitAdmin.declareQueue(bufferQueue);
 
         // 绑定
         rabbitAdmin.declareBinding(BindingBuilder.bind(cloudQueue).to(cloudExchange).with(RabbitmqBaseConfigEnum.TOPIC_CLOUD_SCENES.getEnName()));
