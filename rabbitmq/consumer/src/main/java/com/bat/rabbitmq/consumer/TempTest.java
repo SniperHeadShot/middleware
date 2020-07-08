@@ -1,6 +1,9 @@
 package com.bat.rabbitmq.consumer;
 
-import java.util.Random;
+import com.bat.rabbitmq.consumer.config.RabbitmqConnectionHolder;
+import com.bat.rabbitmq.consumer.entity.BindingMetadata;
+import com.bat.rabbitmq.consumer.entity.ExchangeMetadata;
+import com.bat.rabbitmq.consumer.entity.QueueMetadata;
 
 /**
  * TODO
@@ -10,7 +13,13 @@ import java.util.Random;
  **/
 public class TempTest {
     public static void main(String[] args) {
-        if (new Random().nextBoolean())
-            System.out.println("1111");
+        RabbitmqConnectionHolder rabbitmqConnectionHolder = new RabbitmqConnectionHolder("47.100.114.192", 5672, "admin", "123456", "/");
+
+        rabbitmqConnectionHolder.addExchangeMetadata(new ExchangeMetadata("test.exchange.20200709"));
+        rabbitmqConnectionHolder.addQueueMetadata(new QueueMetadata("test.queue.20200709", (consumerTag, envelope, properties, body) -> {
+            System.out.println(new String(body));
+        }));
+        rabbitmqConnectionHolder.addBindingMetadata(new BindingMetadata("test.queue.20200709", "test.exchange.20200709", "routingKey.exchange.20200709"));
+        rabbitmqConnectionHolder.flushConsumer();
     }
 }
